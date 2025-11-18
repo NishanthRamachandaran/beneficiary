@@ -1,8 +1,4 @@
 
-///
-/// This file contains all hard-coded beneficiary lists.
-/// UI reads this through a provider.
-
 final beneficiariesStaticData = {
   "Within Dukhan": [
     {"name": "Yasmin Noor", "id": "XXXX8817", "bank": "Dukhan Bank (QA)"},
@@ -27,14 +23,14 @@ final beneficiariesStaticData = {
   ],
 
   "International": [
-    {"name": "Yasmin Noor", "id": "TNS...", "bank": "Dukhan Bank (QA)"},
+    {"name": "Yasmin Noor", "id": "TN5905001000002730033209", "bank": "Dukhan Bank (QA)"},
     {
       "name": "Sara Rahman",
-      "id": "TNS...",
+      "id": "TN5905001000002730033209",
       "bank": "Attijari Bank",
       "localImage": "assets/images/sara.png"
     },
-    {"name": "Aliya Khan", "id": "TNS...", "bank": "Societe Tunisienne"},
+    {"name": "Aliya Khan", "id": "TN5905001000002730033209", "bank": "Societe Tunisienne De Banque"},
   ],
 
   "Western Union": [

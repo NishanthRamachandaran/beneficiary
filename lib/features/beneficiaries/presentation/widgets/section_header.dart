@@ -27,7 +27,7 @@ class SectionHeader extends StatelessWidget {
             title,
             style: const TextStyle(
               fontFamily: 'DiodrumArabic',
-              fontSize: 18,
+              fontSize: 19,
               fontWeight: FontWeight.w600,
               color: DefaultColors.black24,
             ),
@@ -39,7 +39,7 @@ class SectionHeader extends StatelessWidget {
             fontFamily: 'DiodrumArabic',
             fontWeight: FontWeight.w600,
             fontSize: 13,
-            color: DefaultColors.blue9D,
+            color: DefaultColors.blue_300,
           ),
         )
       ],

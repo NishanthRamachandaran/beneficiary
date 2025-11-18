@@ -12,7 +12,7 @@ class BeneficiaryTile extends StatelessWidget {
 
     ImageProvider? avatarImage;
 
-    // RULE: Always override Sara's image
+    
     if (item["name"] == "Sara Rahman") {
       avatarImage = const AssetImage("assets/images/sara.png");
     }

@@ -18,7 +18,7 @@ class SectionBox extends StatelessWidget {
         color: DefaultColors.white,
         borderRadius: BorderRadius.circular(14),
         border: Border.all(
-          color: DefaultColors.blue_02.withOpacity(0.4),
+          color: DefaultColors.blueFF.withOpacity(0.4),
         ),
       ),
       child: Column(

@@ -23,7 +23,7 @@ class ChipRow extends ConsumerWidget {
 
             return Container(
               margin: EdgeInsets.only(right: w * 0.03),
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               decoration: BoxDecoration(
                 color: active ? DefaultColors.blue_0 : DefaultColors.blueFA,
                 borderRadius: BorderRadius.circular(18),
@@ -41,7 +41,7 @@ class ChipRow extends ConsumerWidget {
                   labels[index],
                   style: TextStyle(
                     fontFamily: 'DiodrumArabic',
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: FontWeight.w500,
                     color: active ? Colors.black : DefaultColors.blue9D,
                   ),
