@@ -8,7 +8,7 @@ import '../widgets/section_box.dart';
 import '../providers/beneficiaries_providers.dart';
 import '../../colors.dart';
 
-// COMMAND: Page builds UI and connects provider + controller logic.
+//  Page builds UI and connects provider + controller logic.
 class BeneficiariesScreen extends ConsumerStatefulWidget {
   const BeneficiariesScreen({super.key});
 
@@ -18,8 +18,8 @@ class BeneficiariesScreen extends ConsumerStatefulWidget {
 
 class _BeneficiariesScreenState extends ConsumerState<BeneficiariesScreen> {
   
-  bool showSearchBar = false; // COMMAND: toggles basic search bar visibility
-  final TextEditingController searchController = TextEditingController(); // no functionality
+  bool showSearchBar = false; //toggles basic search bar visibility
+  final TextEditingController searchController = TextEditingController(); 
 
   @override
   Widget build(BuildContext context) {

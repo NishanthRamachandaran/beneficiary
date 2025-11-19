@@ -8,7 +8,7 @@ import '../../domain/models/beneficiary.dart';
 final selectedChipProvider = StateProvider<int>((ref) => -1);
 
 // Provider: static beneficiaries data as Map<String, List<Beneficiary>>
-// COMMAND: use this provider to read static data anywhere in presentation layer.
+
 final beneficiariesStaticProvider = Provider<Map<String, List<Beneficiary>>>((ref) {
   return beneficiariesStatic;
 });

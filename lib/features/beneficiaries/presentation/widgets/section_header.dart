@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../colors.dart';
 
 // Widget: section header with optional image on left and View All on right
-// COMMAND: purely presentational. Aligns to card width via parent padding.
+//  Aligns to card width  padding.
 class SectionHeader extends StatelessWidget {
   final String title;
   final String? imagePath;
@@ -12,9 +12,9 @@ class SectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final w = MediaQuery.of(context).size.width; // allowed
+    final w = MediaQuery.of(context).size.width;
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: w * 0.01), // uses MediaQuery for alignment
+      padding: EdgeInsets.symmetric(horizontal: w * 0.01),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -28,7 +28,7 @@ class SectionHeader extends StatelessWidget {
                 title,
                 style: const TextStyle(
                   fontFamily: 'DiodrumArabic',
-                  fontSize: 18, // fixed font size per rule
+                  fontSize: 18, 
                   fontWeight: FontWeight.w600,
                   color: DefaultColors.black24,
                 ),
@@ -41,7 +41,7 @@ class SectionHeader extends StatelessWidget {
               'View All',
               style: const TextStyle(
                 fontFamily: 'DiodrumArabic',
-                fontSize: 13, // fixed
+                fontSize: 13, 
                 fontWeight: FontWeight.w600,
                 color: DefaultColors.blue9D,
               ),

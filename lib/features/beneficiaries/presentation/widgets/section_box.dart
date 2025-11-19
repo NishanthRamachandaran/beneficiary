@@ -1,9 +1,9 @@
 // SECTION BOX (same shape as your old UI)
-import 'package:beneficiary/features/beneficiaries/presentation/widgets/beneficiary_tile.dart';
-import 'package:flutter/material.dart';
 
+import 'package:flutter/material.dart';
 import '../../colors.dart';
 import '../../domain/models/beneficiary.dart';
+import 'beneficiary_tile.dart';
 
 class SectionBox extends StatelessWidget {
   final List<Beneficiary> items;
@@ -14,21 +14,26 @@ class SectionBox extends StatelessWidget {
     final w = MediaQuery.of(context).size.width;
 
     return Container(
-      width: w,
+      width: w - 10,                
+      margin: const EdgeInsets.symmetric(horizontal: 5), 
       decoration: BoxDecoration(
-        color: DefaultColors.white,                        
-        borderRadius: BorderRadius.circular(12),            
+        color: DefaultColors.white,
+        borderRadius: BorderRadius.circular(12),
+        
+      
         border: Border.all(
-          color: DefaultColors.blue_02.withOpacity(0.4),   
-          width: 7,
+          color: DefaultColors.blue_100,
+          width: 1.4, 
         ),
       ),
+
       child: Column(
         children: [
           for (int i = 0; i < items.length; i++) ...[
+            
             BeneficiaryTile(model: items[i]),
 
-            // Divider with gap 
+            // Divider with left + right gap
             if (i != items.length - 1)
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: w * 0.04),

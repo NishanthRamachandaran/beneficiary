@@ -10,7 +10,7 @@ class BeneficiaryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final w = MediaQuery.of(context).size.width; // allowed
+    final w = MediaQuery.of(context).size.width; 
     final ImageProvider? avatar = model.localImage != null
         ? AssetImage(model.localImage!)
         : (model.avatarUrl != null ? NetworkImage(model.avatarUrl!) : null);
