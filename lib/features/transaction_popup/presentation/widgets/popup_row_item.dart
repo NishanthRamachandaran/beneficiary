@@ -39,7 +39,7 @@ class PopupRowItem extends StatelessWidget {
                 fontFamily: 'DiodrumArabic',
                 fontSize: 13.5,
                 color: DefaultColors.black,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w500,
               ),
             ),
           ),

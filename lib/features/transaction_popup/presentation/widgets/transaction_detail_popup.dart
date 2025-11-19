@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/constants/colors.dart';
 import 'package:beneficiary/features/transaction_popup/presentation/widgets/popup_row_item.dart';
-import 'package:beneficiary/features/transaction_popup/presentation/widgets/popup_description.dart' hide PopupRowItem;
+import 'package:beneficiary/features/transaction_popup/presentation/widgets/popup_description.dart' ;
 import '../popup_header_amount.dart';
 
 
@@ -77,40 +77,37 @@ class _PopupBody extends StatelessWidget {
                 child: Column(
                   children: [
                     PopupRowItem(label: "Date", value: transaction.date),
-                    const Divider(height: 1, color: DefaultColors.grayE6),
+                    const Divider(height: 1, color: DefaultColors.blue_100),
 
                     PopupRowItem(
                         label: "Reference number",
                         value: transaction.referenceNumber),
-                    const Divider(height: 1, color: DefaultColors.grayE6),
+                    const Divider(height: 1, color: DefaultColors.blue_100),
 
                     PopupRowItem(
                         label: "Beneficiary Name",
                         value: transaction.beneficiaryName),
-                    const Divider(height: 1, color: DefaultColors.grayE6),
+                    const Divider(height: 1, color: DefaultColors.blue_100),
 
                     PopupRowItem(
                         label: "Bank Name / Account Number / IBAN",
                         value: transaction.bankAndAccount),
-                    const Divider(height: 1, color: DefaultColors.grayE6),
+                    const Divider(height: 1, color: DefaultColors.blue_100),
 
                     PopupRowItem(
                         label: "Currency", value: transaction.currency),
-                    const Divider(height: 1, color: DefaultColors.grayE6),
-
+                    const Divider(height: 1, color: DefaultColors.blue_100),
                     PopupRowItem(
                         label: "Status", value: transaction.status),
-                    const Divider(height: 1, color: DefaultColors.grayE6),
+                    const Divider(height: 1, color: DefaultColors.blue_100),
 
                     PopupRowItem(
                         label: "Channel ID", value: transaction.channel),
-                    const Divider(height: 1, color: DefaultColors.grayE6),
-
+                    const Divider(height: 1, color: DefaultColors.blue_100),
                     PopupRowItem(
                         label: "Swift / Transaction Reference",
                         value: transaction.swiftReference),
-                    const Divider(height: 1, color: DefaultColors.grayE6),
-
+                    const Divider(height: 1, color: DefaultColors.blue_100),
                     PopupDescription(text: transaction.description),
                   ],
                 ),

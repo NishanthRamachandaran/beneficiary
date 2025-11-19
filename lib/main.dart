@@ -21,7 +21,10 @@ class MyApp extends StatelessWidget {
       status: "Success",
       channel: "Mobile Banking",
       swiftReference: "SW12345678",
-      description: "RIB Test Line One\nRIB Test Line Two\nRIB Test Line Three",
+      description: 
+        'RIB: TFR to firstname LMOQP firstname LMOQP\n'
+        'firstname LMOQP RIB RIB: TFR to firstname LMOQP\n'
+        'firstname LMOQP RIB',
     );
 
     return MaterialApp(
