@@ -1,47 +1,81 @@
+// presentation/beneficiaries/beneficiaries_screen.dart
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/models/beneficiary.dart';
-import '../controller/beneficiaries_controller.dart';
+import '../../../../core/constants/colors.dart';
+import '../widgets/beneficiary_tile.dart';
 import '../widgets/chip_row.dart';
-import '../widgets/section_header.dart';
 import '../widgets/section_box.dart';
-import '../providers/beneficiaries_providers.dart';
-import '../../colors.dart';
+import '../widgets/section_header.dart';
 
-//  Page builds UI and connects provider + controller logic.
-class BeneficiariesScreen extends ConsumerStatefulWidget {
+// Controller logic
+class BeneficiariesController {
+  static const List<String> displayOrder = [
+    "Within Dukhan",
+    "Within Qatar",
+    "International",
+    "Western Union",
+  ];
+
+  static const List<String> chipOrder = [
+    "Western Union",
+    "International",
+    "Within Qatar",
+    "Within Dukhan",
+  ];
+
+  static List<MapEntry<String, List<Beneficiary>>> getSections(
+    int selected,
+    Map<String, List<Beneficiary>> data,
+  ) {
+    if (selected == -1) {
+      return displayOrder
+          .where((k) => data.containsKey(k))
+          .map((k) => MapEntry(k, data[k]!))
+          .toList();
+    }
+    final key = chipOrder[selected];
+    return [MapEntry(key, data[key] ?? <Beneficiary>[])];
+  }
+}
+
+class BeneficiariesScreen extends StatefulWidget {
   const BeneficiariesScreen({super.key});
 
   @override
-  ConsumerState<BeneficiariesScreen> createState() => _BeneficiariesScreenState();
+  State<BeneficiariesScreen> createState() => _BeneficiariesScreenState();
 }
 
-class _BeneficiariesScreenState extends ConsumerState<BeneficiariesScreen> {
-  
-  bool showSearchBar = false; //toggles basic search bar visibility
-  final TextEditingController searchController = TextEditingController(); 
+class _BeneficiariesScreenState extends State<BeneficiariesScreen> {
+  int selectedChipIndex = -1;
+  bool showSearchBar = false;
+  final TextEditingController searchController = TextEditingController();
+
+  final List<String> chipLabels = BeneficiariesController.chipOrder;
+
+  List<MapEntry<String, List<Beneficiary>>> getFilteredSections() {
+    return BeneficiariesController.getSections(
+      selectedChipIndex,
+      beneficiariesStatic,
+    );
+  }
+
+  void _onChipSelected(int index) {
+    setState(() {
+      selectedChipIndex = (selectedChipIndex == index) ? -1 : index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    final data = ref.watch(beneficiariesStaticProvider);
-    final selected = ref.watch(selectedChipProvider);
-
-    // COMMAND: controller decides which section list to show
-    final sections = BeneficiariesController.getSections(selected, data);
-
-    final chipsOrder = BeneficiariesController.chipOrder;
-
-    final w = MediaQuery.of(context).size.width;
-    final h = MediaQuery.of(context).size.height;
+    final sections = getFilteredSections();
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: DefaultColors.whiteFD,
-
       appBar: AppBar(
         backgroundColor: DefaultColors.white,
         elevation: 0,
         leading: const BackButton(color: Colors.black),
-
         title: const Text(
           "Beneficiaries",
           style: TextStyle(
@@ -50,43 +84,36 @@ class _BeneficiariesScreenState extends ConsumerState<BeneficiariesScreen> {
             fontSize: 20,
           ),
         ),
-
         actions: [
-          // - SEARCH ICON --
           InkWell(
             onTap: () {
               setState(() {
-                showSearchBar = !showSearchBar; // toggle search bar
+                showSearchBar = !showSearchBar;
               });
             },
             child: CircleAvatar(
-              radius: w * 0.035,
+              radius: width * 0.035,
               backgroundColor: DefaultColors.grayF3,
               child: const Icon(Icons.search, color: Colors.black),
             ),
           ),
-          SizedBox(width: w * 0.02),
-
-          // - ADD ICON -
+          SizedBox(width: width * 0.02),
           CircleAvatar(
-            radius: w * 0.035,
+            radius: width * 0.035,
             backgroundColor: DefaultColors.grayF3,
             child: const Icon(Icons.add, color: Colors.black),
           ),
-          SizedBox(width: w * 0.03),
+          SizedBox(width: width * 0.03),
         ],
       ),
-
       body: Column(
         children: [
-
-          // ---- SIMPLE SEARCH BAR (NO FUNCTIONALITY) ---
           if (showSearchBar)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
-                height: h * 0.055,
+                height: height * 0.055,
                 decoration: BoxDecoration(
                   color: DefaultColors.grayF3,
                   borderRadius: BorderRadius.circular(10),
@@ -94,7 +121,7 @@ class _BeneficiariesScreenState extends ConsumerState<BeneficiariesScreen> {
                 child: Row(
                   children: [
                     const Icon(Icons.search, color: Colors.grey),
-                    SizedBox(width: w * 0.02),
+                    SizedBox(width: width * 0.02),
                     Expanded(
                       child: TextField(
                         controller: searchController,
@@ -109,15 +136,17 @@ class _BeneficiariesScreenState extends ConsumerState<BeneficiariesScreen> {
               ),
             ),
 
-          // ---CHIP ROW ----
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: ChipRow(labels: chipsOrder),
+            child: ChipRow(
+              labels: chipLabels,
+              selectedIndex: selectedChipIndex,
+              onChipSelected: _onChipSelected,
+            ),
           ),
 
-          SizedBox(height: h * 0.02),
+          SizedBox(height: height * 0.02),
 
-          // -- SECTION LIST ---
           Expanded(
             child: ListView.builder(
               itemCount: sections.length,
@@ -126,7 +155,7 @@ class _BeneficiariesScreenState extends ConsumerState<BeneficiariesScreen> {
                 final imagePath = _imageForSection(entry.key);
 
                 return Padding(
-                  padding: EdgeInsets.only(bottom: h * 0.025),
+                  padding: EdgeInsets.only(bottom: height * 0.025),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -135,7 +164,7 @@ class _BeneficiariesScreenState extends ConsumerState<BeneficiariesScreen> {
                         imagePath: imagePath,
                         onViewAll: () {},
                       ),
-                      SizedBox(height: h * 0.015),
+                      SizedBox(height: height * 0.015),
                       SectionBox(items: entry.value.cast<Beneficiary>()),
                     ],
                   ),
@@ -148,7 +177,6 @@ class _BeneficiariesScreenState extends ConsumerState<BeneficiariesScreen> {
     );
   }
 
-  // Helper
   String? _imageForSection(String key) {
     switch (key) {
       case 'Within Dukhan':

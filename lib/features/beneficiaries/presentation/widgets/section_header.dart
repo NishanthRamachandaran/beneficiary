@@ -1,20 +1,24 @@
+// presentation/beneficiaries/widgets/section_header.dart
 import 'package:flutter/material.dart';
-import '../../colors.dart';
+import '../../../../core/constants/colors.dart';
 
-// Widget: section header with optional image on left and View All on right
-//  Aligns to card width  padding.
 class SectionHeader extends StatelessWidget {
   final String title;
   final String? imagePath;
   final VoidCallback? onViewAll;
 
-  const SectionHeader({required this.title, this.imagePath, this.onViewAll, super.key});
+  const SectionHeader({
+    required this.title,
+    this.imagePath,
+    this.onViewAll,
+    super.key
+  });
 
   @override
   Widget build(BuildContext context) {
     final w = MediaQuery.of(context).size.width;
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: w * 0.01),
+      padding: EdgeInsets.symmetric(horizontal: w * 0.04),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -28,7 +32,7 @@ class SectionHeader extends StatelessWidget {
                 title,
                 style: const TextStyle(
                   fontFamily: 'DiodrumArabic',
-                  fontSize: 18, 
+                  fontSize: 18,
                   fontWeight: FontWeight.w600,
                   color: DefaultColors.black24,
                 ),
@@ -37,11 +41,11 @@ class SectionHeader extends StatelessWidget {
           ),
           GestureDetector(
             onTap: onViewAll,
-            child: Text(
+            child: const Text(
               'View All',
-              style: const TextStyle(
+              style: TextStyle(
                 fontFamily: 'DiodrumArabic',
-                fontSize: 13, 
+                fontSize: 13,
                 fontWeight: FontWeight.w600,
                 color: DefaultColors.blue9D,
               ),

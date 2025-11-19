@@ -1,17 +1,32 @@
+// presentation/beneficiaries/widgets/chip_row.dart
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../providers/beneficiaries_providers.dart';
-import '../../colors.dart';
+import '../../../../core/constants/colors.dart';
+
+// Provider state management
+class ChipState {
+  static int selectedChipIndex = -1;
+}
 
 // Widget: horizontal chips (filter bar)
-//  only UI - reads selectedChipProvider and updates it on tap.
-class ChipRow extends ConsumerWidget {
+class ChipRow extends StatefulWidget {
   final List<String> labels;
-  const ChipRow({required this.labels, super.key});
+  final Function(int) onChipSelected;
+  final int selectedIndex;
+
+  const ChipRow({
+    required this.labels,
+    required this.selectedIndex,
+    required this.onChipSelected,
+    super.key,
+  });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final selected = ref.watch(selectedChipProvider);
+  State<ChipRow> createState() => _ChipRowState();
+}
+
+class _ChipRowState extends State<ChipRow> {
+  @override
+  Widget build(BuildContext context) {
     final w = MediaQuery.of(context).size.width;
 
     return SizedBox(
@@ -20,8 +35,8 @@ class ChipRow extends ConsumerWidget {
         scrollDirection: Axis.horizontal,
         physics: const BouncingScrollPhysics(),
         child: Row(
-          children: List.generate(labels.length, (index) {
-            final isActive = selected == index;
+          children: List.generate(widget.labels.length, (index) {
+            final isActive = widget.selectedIndex == index;
             return Container(
               margin: EdgeInsets.only(right: w * 0.03),
               padding: const EdgeInsets.symmetric(
@@ -30,21 +45,17 @@ class ChipRow extends ConsumerWidget {
               ), 
               decoration: BoxDecoration(
                 color: isActive ? DefaultColors.blue_0 : DefaultColors.blueFA,
-                borderRadius: BorderRadius.circular(
-                  18,
-                ), // radius constant-like (kept numeric)
+                borderRadius: BorderRadius.circular(18),
                 border: Border.all(
                   color: isActive ? DefaultColors.blue9C : DefaultColors.grayE6,
                 ),
               ),
               child: InkWell(
                 onTap: () {
-                  final current = ref.read(selectedChipProvider);
-                  ref.read(selectedChipProvider.notifier).state =
-                      (current == index) ? -1 : index;
+                  widget.onChipSelected(index);
                 },
                 child: Text(
-                  labels[index],
+                  widget.labels[index],
                   style: TextStyle(
                     fontFamily: 'DiodrumArabic',
                     fontSize: 11,
