@@ -52,7 +52,7 @@ class _BeneficiariesScreenState extends ConsumerState<BeneficiariesScreen> {
         ),
 
         actions: [
-          // ---------------- SEARCH ICON ----------------
+          // - SEARCH ICON --
           InkWell(
             onTap: () {
               setState(() {
@@ -67,7 +67,7 @@ class _BeneficiariesScreenState extends ConsumerState<BeneficiariesScreen> {
           ),
           SizedBox(width: w * 0.02),
 
-          // ---------------- ADD ICON ----------------
+          // - ADD ICON -
           CircleAvatar(
             radius: w * 0.035,
             backgroundColor: DefaultColors.grayF3,
@@ -80,7 +80,7 @@ class _BeneficiariesScreenState extends ConsumerState<BeneficiariesScreen> {
       body: Column(
         children: [
 
-          // ---------------- SIMPLE SEARCH BAR (NO FUNCTIONALITY) ----------------
+          // ---- SIMPLE SEARCH BAR (NO FUNCTIONALITY) ---
           if (showSearchBar)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -109,7 +109,7 @@ class _BeneficiariesScreenState extends ConsumerState<BeneficiariesScreen> {
               ),
             ),
 
-          // ---------------- CHIP ROW ----------------
+          // ---CHIP ROW ----
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12),
             child: ChipRow(labels: chipsOrder),
@@ -117,7 +117,7 @@ class _BeneficiariesScreenState extends ConsumerState<BeneficiariesScreen> {
 
           SizedBox(height: h * 0.02),
 
-          // ---------------- SECTION LIST ----------------
+          // -- SECTION LIST ---
           Expanded(
             child: ListView.builder(
               itemCount: sections.length,
