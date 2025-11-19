@@ -1,15 +1,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import '../../data/beneficiaries_static_data.dart';
+import '../../domain/models/beneficiary.dart';
 
-/// STATE: which chip is selected
-///
-/// -1 → show all sections.
-/// 0 → Western Union
-/// 1 → International
-/// 2 → Within Qatar
-/// 3 → Within Dukhan
+// Provider: selected chip index. -1 means show ALL.
+// COMMAND: UI widgets listen to this provider to react to chip taps.
 final selectedChipProvider = StateProvider<int>((ref) => -1);
 
-/// Provides static data to UI.
-final beneficiariesProvider = Provider((ref) => beneficiariesStaticData);
+// Provider: static beneficiaries data as Map<String, List<Beneficiary>>
+// COMMAND: use this provider to read static data anywhere in presentation layer.
+final beneficiariesStaticProvider = Provider<Map<String, List<Beneficiary>>>((ref) {
+  return beneficiariesStatic;
+});
