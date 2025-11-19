@@ -5,7 +5,7 @@ import 'features/beneficiaries/presentation/pages/beneficiaries_screen.dart';
 
 void main() {
   runApp(
-    const ProviderScope(       // ✅ MUST wrap the whole app
+    const ProviderScope(       
       child: MyApp(),
     ),
   );
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: BeneficiariesScreen(),   // your screen
+      home: BeneficiariesScreen(),  
     );
   }
 }
