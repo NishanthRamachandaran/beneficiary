@@ -79,7 +79,7 @@ class _PopupBody extends StatelessWidget {
                 fontFamily: 'DiodrumArabic',
                 fontSize: 13.5,
                 color: DefaultColors.black,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w500,
               ),
             ),
           ),
@@ -130,30 +130,30 @@ class _PopupBody extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(16, 12, 16, 20),
                 child: Container(
                   decoration: BoxDecoration(
-                    border: Border.all(color: DefaultColors.grayE6),
+                    border: Border.all(color: DefaultColors.blue_100),
                     borderRadius: BorderRadius.circular(12),
                     color: DefaultColors.white,
                   ),
                   child: Column(
                     children: [
                       _row("Date", transaction.date),
-                      const Divider(height: 1, color: DefaultColors.grayE6),
+                      const Divider(height: 1, color: DefaultColors.blue_100),
                       _row("Reference number", transaction.referenceNumber),
-                      const Divider(height: 1, color: DefaultColors.grayE6),
+                      const Divider(height: 1, color: DefaultColors.blue_100),
                       _row("Beneficiary Name", transaction.beneficiaryName),
-                      const Divider(height: 1, color: DefaultColors.grayE6),
+                      const Divider(height: 1, color: DefaultColors.blue_100),
                       _row("Bank Name / Account Number / IBAN",
                           transaction.bankAndAccount),
-                      const Divider(height: 1, color: DefaultColors.grayE6),
+                      const Divider(height: 1, color: DefaultColors.blue_100),
                       _row("Currency", transaction.currency),
-                      const Divider(height: 1, color: DefaultColors.grayE6),
+                      const Divider(height: 1, color: DefaultColors.blue_100),
                       _row("Status", transaction.status),
-                      const Divider(height: 1, color: DefaultColors.grayE6),
+                      const Divider(height: 1, color: DefaultColors.blue_100),
                       _row("Channel ID", transaction.channel),
-                      const Divider(height: 1, color: DefaultColors.grayE6),
+                      const Divider(height: 1, color: DefaultColors.blue_100),
                       _row("Swift / Transaction Reference",
                           transaction.swiftReference),
-                      const Divider(height: 1, color: DefaultColors.grayE6),
+                      const Divider(height: 1, color: DefaultColors.blue_100),
 
                       // DESCRIPTION (3 lines)
                       Padding(
@@ -183,7 +183,7 @@ class _PopupBody extends StatelessWidget {
                                 textAlign: TextAlign.right,
                                 style: const TextStyle(
                                   fontFamily: 'DiodrumArabic',
-                                  fontSize: 13.5,
+                                  fontSize: 13,
                                   fontWeight: FontWeight.w500,
                                   color: DefaultColors.black,
                                   height: 1.35,
