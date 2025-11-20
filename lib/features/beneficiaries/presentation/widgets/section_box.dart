@@ -1,9 +1,7 @@
-// presentation/beneficiaries/widgets/section_box.dart
 import 'package:flutter/material.dart';
 import '../../../../core/constants/colors.dart';
 import 'beneficiary_tile.dart';
 
-// Static data
 final Map<String, List<Beneficiary>> beneficiariesStatic = {
   "Within Dukhan": [
     const Beneficiary(
@@ -84,6 +82,7 @@ final Map<String, List<Beneficiary>> beneficiariesStatic = {
 
 class SectionBox extends StatelessWidget {
   final List<Beneficiary> items;
+
   const SectionBox({super.key, required this.items});
 
   @override
@@ -92,19 +91,16 @@ class SectionBox extends StatelessWidget {
 
     return Container(
       width: w - 40,
-      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+      margin: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
         color: DefaultColors.white,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: DefaultColors.blue_100, width: 1.4),
       ),
-
       child: Column(
         children: [
           for (int i = 0; i < items.length; i++) ...[
             BeneficiaryTile(model: items[i]),
-
-           
             if (i != items.length - 1)
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: w * 0.04),
@@ -114,7 +110,7 @@ class SectionBox extends StatelessWidget {
                   height: 1,
                 ),
               ),
-          ],
+          ]
         ],
       ),
     );
