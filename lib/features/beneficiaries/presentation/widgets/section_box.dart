@@ -104,7 +104,7 @@ class SectionBox extends StatelessWidget {
           for (int i = 0; i < items.length; i++) ...[
             BeneficiaryTile(model: items[i]),
 
-            // Divider with left + right gap
+           
             if (i != items.length - 1)
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: w * 0.04),
