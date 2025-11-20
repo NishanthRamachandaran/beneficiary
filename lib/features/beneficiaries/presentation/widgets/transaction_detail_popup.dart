@@ -61,7 +61,7 @@ class _PopupBody extends StatelessWidget {
           Expanded(
             flex: 4,
             child: Text(
-              label,
+              label,//left side
               style: const TextStyle(
                 fontFamily: 'DiodrumArabic',
                 fontSize: 13,
@@ -73,7 +73,7 @@ class _PopupBody extends StatelessWidget {
           Expanded(
             flex: 6,
             child: Text(
-              value,
+              value,//right side
               textAlign: TextAlign.right,
               style: const TextStyle(
                 fontFamily: 'DiodrumArabic',
