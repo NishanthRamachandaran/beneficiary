@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/constants/colors.dart';
 import 'package:beneficiary/features/transaction_popup/presentation/widgets/popup_row_item.dart';
 import 'package:beneficiary/features/transaction_popup/presentation/widgets/popup_description.dart' ;
-import '../popup_header_amount.dart';
+import 'popup_header_amount.dart';
 
 
 class TransactionDetail {
