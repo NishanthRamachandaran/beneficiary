@@ -1,6 +1,8 @@
 import 'package:beneficiary/features/beneficiaries/presentation/widgets/transaction_detail_popup.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/constants/colors.dart';
+import '../provider/transaction_provider.dart';
 
 class Beneficiary {
   final String name;
@@ -18,12 +20,12 @@ class Beneficiary {
   });
 }
 
-class BeneficiaryTile extends StatelessWidget {
+class BeneficiaryTile extends ConsumerWidget {
   final Beneficiary model;
 
   const BeneficiaryTile({super.key, required this.model});
 
-  void _openPopup(BuildContext context) {
+  void _openPopup(BuildContext context, WidgetRef ref) {
     final descriptionText =
         'RIB: TFR to firstname LMOQP firstname LMOQP\n'
         'firstname LMOQP RIB RIB: TFR to firstname LMOQP\n'
@@ -42,18 +44,27 @@ class BeneficiaryTile extends StatelessWidget {
       description: descriptionText,
     );
 
+    // 1) Save selected transaction
+    ref.read(transactionProvider.notifier).state = tx;
+
+    // 2) Open popup
     showDialog(
       context: context,
-      builder: (_) => TransactionDetailPopup(transaction: tx),
-    );
+      builder: (_) => TransactionDetailPopup(
+        transaction: ref.read(transactionProvider.notifier).state!,
+      ),
+    ).then((_) {
+      // 3) Reset provider value
+      ref.read(transactionProvider.notifier).state = null;
+    });
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final width = MediaQuery.of(context).size.width;
 
     return InkWell(
-      onTap: () => _openPopup(context),
+      onTap: () => _openPopup(context, ref),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Row(
@@ -77,7 +88,9 @@ class BeneficiaryTile extends StatelessWidget {
                     )
                   : null,
             ),
+
             SizedBox(width: width * 0.03),
+
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,11 +126,13 @@ class BeneficiaryTile extends StatelessWidget {
               ),
             ),
 
-            // OPTIONS (3 dots)
             InkWell(
-              onTap: () => _openPopup(context),
-              child: Icon(Icons.more_vert,
-                  size: width * 0.05, color: DefaultColors.gray71),
+              onTap: () => _openPopup(context, ref),
+              child: Icon(
+                Icons.more_vert,
+                size: width * 0.05,
+                color: DefaultColors.gray71,
+              ),
             ),
           ],
         ),

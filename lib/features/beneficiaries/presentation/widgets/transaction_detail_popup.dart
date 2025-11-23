@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/legacy.dart';
+
 import '../../../../core/constants/colors.dart';
 
 class TransactionDetail {
@@ -27,6 +29,9 @@ class TransactionDetail {
   });
 }
 
+
+///  POPUP WIDGET
+
 class TransactionDetailPopup extends StatelessWidget {
   final TransactionDetail transaction;
 
@@ -46,6 +51,9 @@ class TransactionDetailPopup extends StatelessWidget {
   }
 }
 
+
+///  POPUP BODY 
+
 class _PopupBody extends StatelessWidget {
   final TransactionDetail transaction;
 
@@ -61,7 +69,7 @@ class _PopupBody extends StatelessWidget {
           Expanded(
             flex: 4,
             child: Text(
-              label,//left side
+              label,
               style: const TextStyle(
                 fontFamily: 'DiodrumArabic',
                 fontSize: 13,
@@ -73,7 +81,7 @@ class _PopupBody extends StatelessWidget {
           Expanded(
             flex: 6,
             child: Text(
-              value,//right side
+              value,
               textAlign: TextAlign.right,
               style: const TextStyle(
                 fontFamily: 'DiodrumArabic',
@@ -155,7 +163,7 @@ class _PopupBody extends StatelessWidget {
                           transaction.swiftReference),
                       const Divider(height: 1, color: DefaultColors.blue_100),
 
-                      // DESCRIPTION (3 lines)
+                      // DESCRIPTION
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 14, horizontal: 14),
