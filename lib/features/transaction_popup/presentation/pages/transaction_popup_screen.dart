@@ -26,17 +26,21 @@ class _TransactionPopupScreenState
     if (!shown) {
       shown = true;
 
-      /// provider data
+      // ✔ get transaction from StateProvider
       final tx = ref.read(transactionProvider);
 
-      /// Prevent null crash
+      // ✔ if null, do nothing
       if (tx == null) return;
 
+      // ✔ open popup after frame
       Future.microtask(() {
         showDialog(
           context: context,
           builder: (_) => TransactionDetailPopup(transaction: tx),
-        );
+        ).then((_) {
+          // ✔ Reset provider when popup closes
+          ref.read(transactionProvider.notifier).state = null;
+        });
       });
     }
   }
