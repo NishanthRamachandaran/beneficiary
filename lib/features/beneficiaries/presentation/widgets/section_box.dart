@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/constants/colors.dart';
-import 'beneficiary_tile.dart';
+import 'package:beneficiary/features/beneficiaries/domain/entities/beneficiary.dart';
+import 'package:beneficiary/features/beneficiaries/presentation/widgets/beneficiary_tile.dart';
 
 final Map<String, List<Beneficiary>> beneficiariesStatic = {
   "Within Dukhan": [

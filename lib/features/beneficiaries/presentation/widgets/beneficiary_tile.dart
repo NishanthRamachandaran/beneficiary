@@ -1,141 +1,204 @@
-import 'package:beneficiary/features/beneficiaries/presentation/widgets/transaction_detail_popup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/constants/colors.dart';
-import '../provider/transaction_provider.dart';
+import 'package:beneficiary/features/beneficiaries/domain/entities/beneficiary.dart';
+import 'beneficiary_action_sheet.dart';
 
-class Beneficiary {
-  final String name;
-  final String id;
-  final String bank;
-  final String? avatarUrl;
-  final String? localImage;
-
-  const Beneficiary({
-    required this.name,
-    required this.id,
-    required this.bank,
-    this.avatarUrl,
-    this.localImage,
-  });
-}
-
-class BeneficiaryTile extends ConsumerWidget {
+class BeneficiaryTile extends ConsumerStatefulWidget {
   final Beneficiary model;
 
   const BeneficiaryTile({super.key, required this.model});
 
-  void _openPopup(BuildContext context, WidgetRef ref) {
-    final descriptionText =
-        'RIB: TFR to firstname LMOQP firstname LMOQP\n'
-        'firstname LMOQP RIB RIB: TFR to firstname LMOQP\n'
-        'firstname LMOQP RIB';
+  @override
+  ConsumerState<BeneficiaryTile> createState() => _BeneficiaryTileState();
+}
 
-    final tx = TransactionDetail(
-      amount: "+23,489.28 QAR",
-      date: "23/11/2025, 23:07 PM",
-      referenceNumber: "ABCDE12345",
-      beneficiaryName: model.name,
-      bankAndAccount: "${model.bank}\n${model.id}",
-      currency: "INR",
-      status: "Success",
-      channel: "Mobile Banking",
-      swiftReference: "MS43978348",
-      description: descriptionText,
-    );
+class _BeneficiaryTileState extends ConsumerState<BeneficiaryTile> {
+  double _dragExtent = 0;
+  final double _maxDragExtent = 120.0; // swipe distance limit
 
-    // 1) Save selected transaction
-    ref.read(transactionProvider.notifier).state = tx;
+  void _handleDelete() {
+    print('Delete ${widget.model.name}');
+  }
 
-    // 2) Open popup
-    showDialog(
-      context: context,
-      builder: (_) => TransactionDetailPopup(
-        transaction: ref.read(transactionProvider.notifier).state!,
-      ),
-    ).then((_) {
-      // 3) Reset provider value
-      ref.read(transactionProvider.notifier).state = null;
-    });
+  void _handleFavorite() {
+    print('Favourite ${widget.model.name}');
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final width = MediaQuery.of(context).size.width;
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final width = size.width;
+    final height = size.height;
 
-    return InkWell(
-      onTap: () => _openPopup(context, ref),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          children: [
-            CircleAvatar(
-              radius: 22,
-              backgroundColor: DefaultColors.grayF3,
-              backgroundImage: model.localImage != null
-                  ? AssetImage(model.localImage!)
-                  : (model.avatarUrl != null
-                      ? NetworkImage(model.avatarUrl!)
-                      : null),
-              child: (model.localImage == null && model.avatarUrl == null)
-                  ? Text(
-                      model.name.substring(0, 2).toUpperCase(),
-                      style: const TextStyle(
-                        fontFamily: 'DiodrumArabic',
-                        fontWeight: FontWeight.w500,
-                        color: DefaultColors.black,
-                      ),
-                    )
-                  : null,
-            ),
+    return GestureDetector(
+      onHorizontalDragUpdate: (details) {
+        setState(() {
+          _dragExtent += details.delta.dx;
 
-            SizedBox(width: width * 0.03),
-
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+          if (_dragExtent > 0) _dragExtent = 0; // no right swipe
+          if (_dragExtent < -_maxDragExtent) {
+            _dragExtent = -_maxDragExtent; // limit
+          }
+        });
+      },
+      onHorizontalDragEnd: (_) {
+        setState(() {
+          if (_dragExtent < -_maxDragExtent / 2) {
+            _dragExtent = -_maxDragExtent;
+          } else {
+            _dragExtent = 0;
+          }
+        });
+      },
+      child: Stack(
+        children: [
+          /// BACKGROUND ACTION ICONS
+          Positioned.fill(
+            child: Container(
+              alignment: Alignment.centerRight,
+              padding: EdgeInsets.only(right: width * 0.04),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text(
-                    model.name,
-                    style: const TextStyle(
-                      fontFamily: 'DiodrumArabic',
-                      color: DefaultColors.black,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
+                  // Delete Button
+                  GestureDetector(
+                    onTap: () {
+                      _handleDelete();
+                      setState(() => _dragExtent = 0);
+                    },
+                    child: Container(
+                      width: width * 0.12,
+                      height: width * 0.12,
+                      margin: EdgeInsets.only(right: width * 0.02),
+                      decoration: BoxDecoration(
+                        color: DefaultColors.redDB.withOpacity(0.12),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.delete_outline,
+                        color: DefaultColors.redDB,
+                        size: width * 0.06,
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 3),
-                  Text(
-                    model.id,
-                    style: const TextStyle(
-                      fontFamily: 'DiodrumArabic',
-                      color: DefaultColors.gray82,
-                      fontSize: 12,
-                    ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    model.bank,
-                    style: const TextStyle(
-                      fontFamily: 'DiodrumArabic',
-                      color: DefaultColors.gray82,
-                      fontSize: 11,
+
+                  // Star Button
+                  GestureDetector(
+                    onTap: () {
+                      _handleFavorite();
+                      setState(() => _dragExtent = 0);
+                    },
+                    child: Container(
+                      width: width * 0.12,
+                      height: width * 0.12,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: DefaultColors.blue_150_db.withOpacity(0.12),
+                      ),
+                      child: Icon(
+                        Icons.star_outline,
+                        color: DefaultColors.blue_150_db,
+                        size: width * 0.06,
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
+          ),
 
-            InkWell(
-              onTap: () => _openPopup(context, ref),
-              child: Icon(
-                Icons.more_vert,
-                size: width * 0.05,
-                color: DefaultColors.gray71,
+          /// MAIN CONTENT TILE (UNTOUCHED ORIGINAL UI)
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 180),
+            transform: Matrix4.translationValues(_dragExtent, 0, 0),
+            child: Container(
+              color: DefaultColors.white,
+              padding: EdgeInsets.all(width * 0.04),
+              child: Row(
+                children: [
+                  /// Avatar
+                  CircleAvatar(
+                    radius: width * 0.06,
+                    backgroundColor: DefaultColors.grayF3,
+                    backgroundImage: widget.model.localImage != null
+                        ? AssetImage(widget.model.localImage!)
+                        : (widget.model.avatarUrl != null
+                            ? NetworkImage(widget.model.avatarUrl!)
+                            : null),
+                    child: (widget.model.localImage == null &&
+                            widget.model.avatarUrl == null)
+                        ? Text(
+                            widget.model.name.substring(0, 2).toUpperCase(),
+                            style: TextStyle(
+                              fontFamily: 'DiodrumArabic',
+                              fontWeight: FontWeight.w500,
+                              fontSize: width * 0.035,
+                              color: DefaultColors.black,
+                            ),
+                          )
+                        : null,
+                  ),
+
+                  SizedBox(width: width * 0.03),
+
+                  /// Name + ID + Bank
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          widget.model.name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontFamily: 'DiodrumArabic',
+                            fontWeight: FontWeight.w500,
+                            fontSize: width * 0.038,
+                            color: DefaultColors.black,
+                          ),
+                        ),
+                        SizedBox(height: height * 0.004),
+
+                        Text(
+                          widget.model.id,
+                          style: TextStyle(
+                            fontFamily: 'DiodrumArabic',
+                            fontSize: width * 0.032,
+                            color: DefaultColors.gray82,
+                          ),
+                        ),
+                        SizedBox(height: height * 0.003),
+
+                        Text(
+                          widget.model.bank,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontFamily: 'DiodrumArabic',
+                            fontSize: width * 0.03,
+                            color: DefaultColors.gray82,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  /// More Icon
+                  InkWell(
+                    onTap: () => BeneficiaryActionSheet.show(context),
+                    child: Icon(
+                      Icons.more_vert,
+                      size: width * 0.05,
+                      color: DefaultColors.gray71,
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

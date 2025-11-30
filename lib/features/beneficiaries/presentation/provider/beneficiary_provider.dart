@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import '../widgets/beneficiary_tile.dart';
+import 'package:beneficiary/features/beneficiaries/domain/entities/beneficiary.dart';
 import '../widgets/section_box.dart';
 
 final beneficiariesProvider =
